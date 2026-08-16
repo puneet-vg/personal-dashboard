@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Command Center</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="icon" href="data:," />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <div class="greeting-block">
+        <h1 class="greeting">
+          <span class="greet-hello">Hello, <span id="greetName">Puneetkumar</span>,</span>
+          <span class="greet-period" id="greetPeriod">Good Morning</span>
+        </h1>
+        <div class="clock-row">
+          <span id="todayLabel"></span>
+          <span class="clock-sep">·</span>
+          <span class="live-clock" id="liveClock">00:00:00</span>
+        </div>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="settingsBtn" title="Settings" aria-label="Settings">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+      </button>
+      <input type="file" id="importFile" accept="application/json" hidden />
+    </div>
+  </div>
+</header>
+
+<main class="dashboard">
+
+  <!-- FINANCE -->
+  <section class="panel panel-finance" aria-labelledby="financeHeading">
+    <div class="panel-head">
+      <h2 id="financeHeading" class="panel-title">Finance</h2>
+    </div>
+
+    <div class="hero-card">
+      <span class="eyebrow">Net worth</span>
+      <div class="hero-amount" id="netWorthAmount">₹0</div>
+      <span class="hero-sub" id="netWorthUpdated">No data yet</span>
+    </div>
+
+    <div class="fin-categories" id="financeCategories">
+      <!-- category blocks injected by app.js -->
+    </div>
+  </section>
+
+  <!-- TASKS -->
+  <section class="panel panel-tasks" aria-labelledby="tasksHeading">
+    <div class="panel-head">
+      <h2 id="tasksHeading" class="panel-title">Tasks</h2>
+      <div class="panel-head-actions">
+        <button class="text-btn" id="tasksRefreshBtn" title="Refresh tasks">Refresh</button>
+      </div>
+    </div>
+
+    <div id="tasksAuthGate" class="auth-gate">
+      <p class="muted">Connect Google Tasks to see your Personal and Work lists here.</p>
+      <button class="btn btn-primary" id="connectTasksBtn">Connect Google Tasks</button>
+      <p class="muted small" id="tasksAuthNote"></p>
+    </div>
+
+    <div id="tasksApp" class="tasks-app hidden">
+      <div class="task-tabs" id="taskTabs"></div>
+      <div class="task-list-body" id="taskListBody"></div>
+      <button class="add-row-btn" id="addListBtn">+ Add list</button>
+    </div>
+  </section>
+
+  <!-- SECONDARY INCOME -->
+  <section class="panel panel-income" aria-labelledby="incomeHeading">
+    <div class="panel-head">
+      <h2 id="incomeHeading" class="panel-title">Secondary Income</h2>
+      <button class="add-row-btn" id="addIncomeBtn">+ Add income</button>
+    </div>
+    <div class="hero-card hero-card-income">
+      <span class="eyebrow">Total secondary income</span>
+      <div class="hero-amount" id="incomeTotalAmount">₹0</div>
+      <span class="hero-sub" id="incomeUpdated">No entries yet</span>
+    </div>
+    <div class="fin-cat-body-inner income-list" id="incomeList"></div>
+  </section>
+
+  <!-- GOALS -->
+  <section class="panel panel-goals" aria-labelledby="goalsHeading">
+    <div class="panel-head">
+      <h2 id="goalsHeading" class="panel-title">Goals</h2>
+      <button class="add-row-btn" id="addGoalBtn">+ Add goal</button>
+    </div>
+    <div class="goals-grid" id="goalsGrid">
+      <!-- goal cards injected -->
+    </div>
+    <p class="empty-hint hidden" id="goalsEmpty">No goals yet. Add one to start tracking progress.</p>
+  </section>
+
+</main>
+
+<footer class="foot-note">
+  <span id="mfStatusFoot"></span>
+</footer>
+
+<!-- ===== Generic Modal ===== -->
+<div class="modal-overlay hidden" id="modalOverlay">
+  <div class="modal" role="dialog" aria-modal="true" id="modalBox">
+    <div class="modal-head">
+      <h3 id="modalTitle">Title</h3>
+      <button class="icon-btn" id="modalClose" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- ===== Settings Modal ===== -->
+<div class="modal-overlay hidden" id="settingsOverlay">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-head">
+      <h3>Settings</h3>
+      <button class="icon-btn" id="settingsClose" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <label class="field-label">Display name
+        <input type="text" id="displayNameInput" class="field-input" placeholder="Puneetkumar" />
+      </label>
+      <button class="btn btn-secondary" id="saveDisplayNameBtn">Save</button>
+      <hr class="divider" />
+      <label class="field-label">Currency symbol
+        <input type="text" id="currencySymbolInput" class="field-input" placeholder="₹" maxlength="3" />
+      </label>
+      <button class="btn btn-secondary" id="saveCurrencyBtn">Save</button>
+      <hr class="divider" />
+      <label class="field-label">Google OAuth Client ID
+        <input type="text" id="googleClientIdInput" class="field-input" placeholder="xxxxxxxx.apps.googleusercontent.com" />
+      </label>
+      <p class="muted small">Needed only for Google Tasks sync. Stored on this device only — see the setup guide in README.md. This is a public client ID, not a secret.</p>
+      <button class="btn btn-primary" id="saveClientIdBtn">Save</button>
+      <button class="btn btn-danger-ghost" id="disconnectTasksBtn">Disconnect Google Tasks</button>
+      <hr class="divider" />
+      <label class="field-label">Your data</label>
+      <button class="btn btn-secondary" id="exportBtn">Export backup (.json)</button>
+      <button class="btn btn-secondary" id="importBtn">Import / restore backup</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="storage.js"></script>
+<script src="mf.js"></script>
+<script src="tasks.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
